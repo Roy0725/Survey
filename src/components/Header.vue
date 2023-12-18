@@ -1,6 +1,6 @@
 <template>
 <div class="headerShow">
-    <router-link to="/">
+    <router-link to="/Survey">
         <a alt="前台" class="front">前台</a>
     </router-link>
     <router-link to="/Manage">

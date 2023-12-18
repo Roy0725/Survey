@@ -6,7 +6,7 @@
       </div>
       
       <div class="time">
-        <p>統計時間 :</p>
+        <p>開始時間 :</p>
         <input type="date">
         <p class="at">到</p>
         <input type="date">
@@ -14,19 +14,8 @@
       </div>
     </div>
     
-    <div class="icons">
-    <div class="delete">
-      <i class="fa-solid fa-trash-can"></i>
-    </div>
-
-    <div class="add">
-      <i class="fa-solid fa-plus"></i>
-    </div>
-  </div>
-
       <table>
         <tr>
-          <th><input type="checkbox"></th>
           <th>編號</th>
           <th>名稱</th>
           <th>狀態</th>
@@ -35,10 +24,9 @@
           <th>結果</th>
         </tr>
         <tr>
-          <td><input type="checkbox"></td>
           <td></td>
-          <td>大概有這麼高</td>
-          <td>這裡是後台</td>
+          <td @click=goInside() class="survey">大概有這麼高</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -71,6 +59,11 @@
         return{
           
         }
+      },
+      methods:{
+        goInside(){
+          this.$router.push('/Inside')
+        }
       }
     }
     </script>
@@ -96,11 +89,10 @@
             margin-left: 10px;
             width: 800px;
           }
-
+    
           p{
             margin-top: 13px;
           }
-    
         }
         
         .time{
@@ -114,11 +106,11 @@
             height: 35px; 
             margin-top: 12px;
           }
-    
-          p{
-            margin-top: 17px
-          }
 
+          p{
+            margin-top: 17px;
+          }
+    
           .at{
             margin: 0px 40px;
             display: flex;
@@ -136,29 +128,9 @@
           }
       }
       
-      .icons{
-        display: flex;
-        position: relative;
-        .delete{
-          font-size: 26pt;
-          cursor: pointer;
-          position: absolute;
-          top: -10px;
-          left: -570px;
-        }
-        
-        .add{
-          font-size: 26pt;
-          position: absolute;
-          top: -10px;
-          left: -500px;
-          cursor: pointer;
-        }
-      }
-
         table{
           width: 1200px;
-          margin-top: 50px;
+          margin-top: 30px;
           text-align: center;
           
           tr{
@@ -171,6 +143,15 @@
             td{
               border: 2px solid black;
               border-radius: 5px;
+    
+              .survey{
+                cursor: pointer;
+                color: blue;
+    
+                &:hover{
+                  text-decoration: underline;
+                }
+              }
             }
           }
         }
