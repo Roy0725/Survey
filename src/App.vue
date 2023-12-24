@@ -27,6 +27,6 @@ import Header from './components/Header.vue'
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
+  align-items: center;   
 }
 </style>

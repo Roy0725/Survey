@@ -25,9 +25,9 @@ const router = createRouter({
       component: () => import("../views/Front/Confirm.vue"),
     },
     {
-      path: "/Inside",
-      name: "Inside",
-      component: () => import("../views/Front/Inside.vue"),
+      path: "/Question",
+      name: "Question",
+      component: () => import("../views/Front/Question.vue"),
     },
     {
       path: "/Manage",
@@ -40,9 +40,9 @@ const router = createRouter({
       component: () => import("../views/Back/ManageConfirm.vue"),
     },
     {
-      path: "/ManageInside",
-      name: "ManageInside",
-      component: () => import("../views/Back/ManageInside.vue"),
+      path: "/ManageCreate",
+      name: "ManageCreate",
+      component: () => import("../views/Back/ManageCreate.vue"),
     },
   ]
 })

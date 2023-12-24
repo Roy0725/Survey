@@ -25,7 +25,7 @@
         </tr>
         <tr>
           <td></td>
-          <td @click=goInside() class="survey">大概有這麼高</td>
+          <td @click=goQuestion() class="survey" style="cursor: pointer;">大概有這麼高</td>
           <td></td>
           <td></td>
           <td></td>
@@ -61,21 +61,22 @@
         }
       },
       methods:{
-        goInside(){
-          this.$router.push('/Inside')
+        goQuestion(){
+          this.$router.push('/Question')
         }
       }
     }
     </script>
     <style lang="scss" scoped>
     
+
       .top{
         width: 1200px;
         height: 150px;
         border: 1px solid black;
         margin: 20px 0px;
         border-radius: 5px;
-    
+        
         
         .name{
           display: flex;

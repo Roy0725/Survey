@@ -20,13 +20,13 @@
     </div>
 
     <div class="add">
-      <i class="fa-solid fa-plus"></i>
+      <i class="fa-solid fa-plus" @click="create()"></i>
     </div>
   </div>
 
       <table>
         <tr>
-          <th><input type="checkbox"></th>
+          <th></th>
           <th>編號</th>
           <th>名稱</th>
           <th>狀態</th>
@@ -70,6 +70,11 @@
       data(){
         return{
           
+        }
+      },
+      methods:{
+        create(){
+          this.$router.push('/ManageCreate')
         }
       }
     }

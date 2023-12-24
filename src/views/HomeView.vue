@@ -10,7 +10,7 @@
 
   <div class="button">
   <button type="button" class="button1">登入</button>
-  <button type="button" class="button2">填寫問卷</button>
+  <button type="button" class="button2" @click="goSurvey">填寫問卷</button>
 </div>
 </div>
 
@@ -20,6 +20,11 @@ export default {
   data(){
     return{
       
+    }
+  },
+  methods:{
+    goSurvey(){
+      this.$router.push('/Survey')
     }
   }
 }
