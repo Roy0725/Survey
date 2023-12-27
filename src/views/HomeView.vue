@@ -1,30 +1,48 @@
 <template>
 <div class="login">
 
-    <label for="">帳號</label>
-    <input type="text">
+    <label for="account">帳號</label>
+    <input type="text" v-model="account" id="account" required>
 
-    <label for="">密碼</label>
-    <input type="password">
+    <label for="password">密碼</label>
+    <input type="password" v-model="password" id="password" required>
 
 
   <div class="button">
-  <button type="button" class="button1">登入</button>
-  <button type="button" class="button2" @click="goSurvey">填寫問卷</button>
+    <input type="button" class="button1" @click="login()" value="登入">
+    <input type="button" class="button2" @click="goSurvey" value="填寫問卷">
 </div>
 </div>
 
 </template>
 <script>
+import axios from 'axios'
+
 export default {
   data(){
     return{
+      account:"",
+      password:"",
       
     }
   },
   methods:{
     goSurvey(){
       this.$router.push('/Survey')
+    },
+    login(){
+      
+
+        axios({
+          url:'http://localhost:8080/api/login',
+          method:"POST",
+          headers:{"Content-Type": "application/json"},
+          data:{
+              account:"",
+              password:"",
+          }
+      }).then(res=>console.log(res))
+            
     }
   }
 }

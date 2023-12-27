@@ -15,7 +15,9 @@ import Header from './components/Header.vue'
 </template>
 
 <style lang="scss" scoped>
-
+body{
+  background-color: #B8BB9A;
+}
 .header{
   width: 100%;
   height: 15vh;
@@ -27,6 +29,7 @@ import Header from './components/Header.vue'
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;   
+  align-items: center;
+  // background-color: #FBF1B4;
 }
 </style>

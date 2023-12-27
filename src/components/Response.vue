@@ -68,7 +68,13 @@
                 }
             }
             .pages{
-               
+              width: 1200px;
+              height: 100px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: absolute;
+              bottom: -50px;
             }
         }
     

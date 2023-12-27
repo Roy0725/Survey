@@ -190,5 +190,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: absolute;
+      bottom: -70px;
     }
     </style>

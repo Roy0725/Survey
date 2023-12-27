@@ -1,5 +1,6 @@
 <template>
-
+    <br>
+    <br>
     <div class="mainTitle">
         <h1>探討安樂死</h1>
     </div>

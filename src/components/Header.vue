@@ -36,19 +36,13 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        
+        background-color: #83C3FF;
         a{
             margin: 0px 10px;
             text-decoration: none;
             cursor: pointer;
             font-size: 36px;
-            opacity: 0;
-
-            &:hover{
-                opacity: 1;
-                transform: scale(1.2);
-                color: black;
-            }
+            color: black;
         }
     }
 </style>
