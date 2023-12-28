@@ -31,18 +31,26 @@ export default {
       this.$router.push('/Survey')
     },
     login(){
-      
-
         axios({
           url:'http://localhost:8080/api/login',
           method:"POST",
           headers:{"Content-Type": "application/json"},
           data:{
-              account:"",
-              password:"",
+              account: this.account,
+              password: this.password
           }
-      }).then(res=>console.log(res))
-            
+      })
+      .then((res) => {
+      console.log(res);
+
+      alert('登入成功');
+      this.$router.push('/Manage');
+    })
+    .catch((error) => {
+      console.error('登入失敗', error);
+      // 如果有錯誤，你可能想要顯示一個錯誤訊息
+      alert('登入失敗');
+    });
     }
   }
 }

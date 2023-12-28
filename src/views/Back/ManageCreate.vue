@@ -38,6 +38,7 @@
     @prevStep="prevStep"
     @submitData="submitData"
     />
+    <input type="button" value="僅儲存" @click="unPublisghed">
 </div>
   <div class="tab-pane fade" :class="{ show: step === 4, active: step === 4 }" id="response" role="tabpanel" aria-labelledby="response-tab">
     <Response v-if="step === 4" />
@@ -89,13 +90,61 @@ export default {
         this.step = newStep;
       },
       submitData(){
-
+        
         console.log(dataFromQuestions);
         console.log("To database", {
           dataFromCreateSurvey: this.dataFromCreateSurvey,
           dataFromQuestions:this.dataFromQuestions,
         });
-      }
+      },
+      unPublisghed(){
+            if(this.name === "" || this.description === "" || this.start_date === "" || this.end_date === ""){
+                alert('格式錯誤')
+                return
+            }
+
+            const startDate = new Date(this.start_date)
+            const endDate = new Date(this.end_date)
+
+            if(endDate <= startDate){
+                alert("結束時間不可早於或等於開始時間")
+                return
+            }
+
+            // const newQuestionIn = {
+            //     questionIn:{
+            //         name:this.name,
+            //         description:this.description,
+            //         start_date:this.start_date,
+            //         end_date:this.end_date,
+            //         questions:[],
+            //         published: 0,
+            //     },
+            //     question_list: this.question_list,
+            // }
+
+            // this.questionArr.forEach((item, questionIndex) => {
+            //     const optionTextArr = item.options.map(option => option.text)
+            //     this.questionArr[questionIndex].optionText = optionTextArr.join(';')
+            // })
+
+            // console.log(newQuestionIn);
+
+            axios({
+                url:'http://localhost:8080/quiz/create',
+                method:"POST",
+                headers:{"Content-Type": "application/json"},
+                data:{
+                    name:this.name,
+                    description:this.description,
+                    start_date:this.start_date,
+                    end_date:this.end_date,
+                    questions:[],
+                    published:0,
+                }
+            }).then(res=>console.log(res))
+                
+        },
     },
     components:{
     CreateSurvey,
@@ -109,11 +158,11 @@ export default {
 <style lang="scss" scoped>
     .inside{
         width: 90vw;
-        height: 90vh;
+        // height: 90vh;
         
         .tab-content{
             width: 90vw;
-            height: 90vh;
+            height: 100%;
             border-left: 1px solid black;
             border-right: 1px solid black;
             border-bottom: 1px solid black;

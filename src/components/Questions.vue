@@ -41,19 +41,19 @@
                     <th>必填</th>
                     <th>編輯</th>
                 </tr>
-                <tr v-for="(q, index) in question_list" :key="q.id">
+                <tr v-for="(q, index) in question_list" :key="q.num">
                     <td><input type="checkbox" v-model="q.selected"></td>
                     <td>{{ index + 1 }}</td>
-                    <td>{{ q.question }}</td>
-                    <td>{{ q.optionType }}</td>
+                    <td>{{ q.title }}</td>
+                    <td>{{ q.type }}</td>
                     <td><input type="checkbox" :checked="q.necessary" disabled></td>
                     <td><a href="#">編輯</a></td>
                 </tr>
             </table>
         </div>
         <div class="confirm">
-                <input type="button" value="上一頁" @click="$emit('prevStep')">
-                <input type="button" value="送出" @click="nextStep">
+                <input type="button" value="上一頁" @click="$emit('prevStep')" style="margin: 10px">
+                <input type="button" value="送出" @click="nextStep" style="margin: 10px 50px 10px 20px;">
         </div>
     </div>
 </template>
@@ -74,17 +74,16 @@
                      // 將選項以分號分隔並排序
                     const sortedOptions = this.options.split(';').filter(option => option.trim() !== '').sort();
                     // 將排序後的選項重新組合成字串
-                    this.options = sortedOptions.join(';');
+                    this.options = sortedOptions.split(';');
                 }
             },
             add(){
                 this.question_list.push({
-                    id: this.question_list.length + 1, 
-                    question: this.question, 
+                    num: this.question_list.length + 1, 
+                    title: this.question, 
                     necessary: this.is_necessary,
-                    optionType: this.optionType, 
-                    options: this.options,
-                    selected:false,
+                    type: this.optionType, 
+                    option: this.options,
                 })
                 //清空欄位
                 this.question = ''
@@ -174,13 +173,9 @@ position: relative;
         }
     }
     .confirm{
-        width: 150px;
-        position: absolute;
-        right:7%;
-        bottom: -50px;
+        width: 100%;
         display: flex;
-        justify-content: space-around;
-        
+        justify-content: flex-end;
     }
     
 }

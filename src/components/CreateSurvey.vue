@@ -23,6 +23,8 @@
         </div>
         <br>
         <br>
+        <br>
+        <br>
         <div class="confirm">
             <input type="button" value="取消" class="cancel" @click="cancel()">
             <input type="button" value="下一頁" class="next" @click="nextStep">
@@ -56,19 +58,6 @@ export default {
             };
             this.$emit('nextStep', sendData)
         },
-        // createQuestion(){
-        //     const newQuestion ={
-        //         questionType:'',
-        //         questionText:'',
-        //         optionText:'',
-        //         necessary:'', //是否必填，以0,1表示
-        //         question:[],
-        //         options:[],
-        //     }
-        //     this.questionArr.push(newQuestion)
-        //     this.questionList.push(newQuestion) //新增位置
-
-        // },
         UnPublisghed(){
             if(this.name === "" || this.description === "" || this.start_date === "" || this.end_date === ""){
                 alert('格式錯誤')
@@ -83,25 +72,6 @@ export default {
                 return
             }
 
-            const newQuestionIn = {
-                questionIn:{
-                    name:this.name,
-                    description:this.description,
-                    start_date:this.start_date,
-                    end_date:this.end_date,
-                    questions:[],
-                    published: 0,
-                },
-                question_list: this.question_list,
-            }
-
-            // this.questionArr.forEach((item, questionIndex) => {
-            //     const optionTextArr = item.options.map(option => option.text)
-            //     this.questionArr[questionIndex].optionText = optionTextArr.join(';')
-            // })
-
-            console.log(newQuestionIn);
-
             axios({
                 url:'http://localhost:8080/quiz/create',
                 method:"POST",
@@ -115,7 +85,13 @@ export default {
                     published:0,
                 }
             }).then(res=>console.log(res))
-                
+            const sendData = {
+                name:this.name,
+                description:this.description,
+                start_date:this.start_date,
+                end_date:this.end_date,
+            };
+            this.$emit('nextStep', sendData)
         },
     },
     
