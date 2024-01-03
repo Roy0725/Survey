@@ -1,8 +1,9 @@
 <template>
     <br>
     <br>
-    <div class="mainTitle">
-        <h1>探討安樂死</h1>
+
+    <div class="mainTitle" v-for="(item, index) in surveyArr" :key="index">
+        <h1>{{ item.name }}</h1>
     </div>
 
     <div class="content">
@@ -37,16 +38,16 @@
             <li>你會想要安樂死的原因</li>
             
             <div class="answer1">
-                <input type="radio" v-model="radioText" name="reason">
+                <input type="radio" name="reason">
                 <label for="">沒有尊嚴</label>
                 <br>
-                <input type="radio" v-model="radioText" name="reason">
+                <input type="radio" name="reason">
                 <label for="">已無遺憾</label>
                 <br>
-                <input type="radio" v-model="radioText" name="reason">
+                <input type="radio" name="reason">
                 <label for="">不想拖累家人</label>
                 <br>
-                <input type="radio" v-model="radioText" name="reason">
+                <input type="radio" name="reason">
                 <label for="">想自己選擇離去的方式</label>
             </div>
 
@@ -71,23 +72,65 @@
     </div>
 </div>
 
+
     <div class="confirm">   
         <input type="button" @click="cancel()" value="取消" class="btn1">
         <input type="button" value="送出" class="btn2">
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
     data(){
         return{
+            surveyTitle:'',
+            surveyStartDate:'',
+            surveyEndDate:'',
+            isLogin:false,
             radioText:"",
             checkText:[],
+            surveyArr:[],
         }
     },
+    mounted(){
+        this.search()
+        console.log(this.surveyArr);
+  },
     methods:{
         cancel(){
             this.$router.push('/Survey')
-        }
+        },
+        search(){
+          this.surveyArr = [];
+
+          axios({
+                url:'http://localhost:8080/quiz/search',
+                method:"POST",
+                headers:{"Content-Type": "application/json"},
+                data:{
+                  quiz_name:this.searchTitle,
+                  start_date:this.searchStartDate,
+                  end_date:this.searchEndDate,
+                  is_login:this.isLogin,
+                }
+            })
+            .then(res => {
+              res.data.quizList.forEach(element => {
+                this.surveyArr.push({
+                  name:element.name,
+                  description:element.description,
+                  startDate:element.startDate,
+                  endDate:element.endDate,
+                  is_published:element.published,
+                  question:element.questionStr,
+                  num:element.num
+                })});
+
+                // this.surveyArr.reverse()
+                
+            })
+        },
     }
 }
 </script>
@@ -97,6 +140,7 @@ export default {
         margin: 20px 100px;
         font-size: 24px;
         width: 60%;
+        
     }
     .container{
         display: flex;

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
-
+// import Question from '@/views/Front/Question.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,15 +21,21 @@ const router = createRouter({
       component: () => import("../views/Front/Statistics.vue"),
     },
     {
-      path: "/Confirm",
-      name: "Confirm",
-      component: () => import("../views/Front/Confirm.vue"),
+      path: "/Respon",
+      name: "Respon",
+      component: () => import("../views/Front/Respon.vue"),
     },
     {
       path: "/Question",
       name: "Question",
       component: () => import("../views/Front/Question.vue"),
     },
+    // {
+    //   path: "/edit-survey/:questionId",
+    //   name: "edit-survey",
+    //   component: Question,
+    //   props:true,
+    // },
     {
       path: "/Manage",
       name: "Manage",
@@ -42,10 +47,16 @@ const router = createRouter({
       component: () => import("../views/Back/ManageConfirm.vue"),
     },
     {
-      path: "/ManageCreate",
+      path: "/ManageCreate/",
       name: "ManageCreate",
       component: () => import("../views/Back/ManageCreate.vue"),
     },
+    // {
+    //   path: "/ManageCreate/:id",
+    //   name: "ManageCreate/:id",
+    //   component: () => import("../views/Back/ManageCreate.vue"),
+    //   props:true
+    // },
   ]
 })
 

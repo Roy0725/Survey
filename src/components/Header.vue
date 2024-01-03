@@ -36,13 +36,13 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #83C3FF;
+        background-color: #384F77;
         a{
             margin: 0px 10px;
             text-decoration: none;
             cursor: pointer;
             font-size: 36px;
-            color: black;
+            color: rgb(236, 232, 232);
         }
     }
 </style>

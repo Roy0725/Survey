@@ -38,7 +38,6 @@
     @prevStep="prevStep"
     @submitData="submitData"
     />
-    <input type="button" value="僅儲存" @click="unPublisghed">
 </div>
   <div class="tab-pane fade" :class="{ show: step === 4, active: step === 4 }" id="response" role="tabpanel" aria-labelledby="response-tab">
     <Response v-if="step === 4" />
@@ -63,6 +62,7 @@ export default {
         step: 1,
         dataFromCreateSurvey:'',
         dataFromQuestions:'',
+        isLogin:true,
         // name:"",
         // description:"",
         // start_date:"",
@@ -73,6 +73,9 @@ export default {
         // options:'',
       }
     
+    },
+    mounted(){
+      const quizId = decodeURIComponent(this.$route.params.quizId);
     },
     methods:{
       nextStep(data){
@@ -111,34 +114,16 @@ export default {
                 return
             }
 
-            // const newQuestionIn = {
-            //     questionIn:{
-            //         name:this.name,
-            //         description:this.description,
-            //         start_date:this.start_date,
-            //         end_date:this.end_date,
-            //         questions:[],
-            //         published: 0,
-            //     },
-            //     question_list: this.question_list,
-            // }
-
-            // this.questionArr.forEach((item, questionIndex) => {
-            //     const optionTextArr = item.options.map(option => option.text)
-            //     this.questionArr[questionIndex].optionText = optionTextArr.join(';')
-            // })
-
-            // console.log(newQuestionIn);
-
             axios({
                 url:'http://localhost:8080/quiz/create',
                 method:"POST",
                 headers:{"Content-Type": "application/json"},
                 data:{
-                    name:this.name,
-                    description:this.description,
-                    start_date:this.start_date,
-                    end_date:this.end_date,
+                    name: this.name,
+                    description: this.description,
+                    start_date: this.start_date,
+                    end_date: this.end_date,
+                    is_login: this.isLogin,
                     questions:[],
                     published:0,
                 }

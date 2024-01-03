@@ -26,13 +26,12 @@
         <br>
         <br>
         <div class="confirm">
-            <input type="button" value="取消" class="cancel" @click="cancel()">
+            <input type="button" value="取消" class="cancel" @click="cancel">
             <input type="button" value="下一頁" class="next" @click="nextStep">
         </div>
     </div>
 </template>
 <script>
-// import { DATE } from 'mysql/lib/protocol/constants/types'
 import axios from 'axios'
     
 export default {

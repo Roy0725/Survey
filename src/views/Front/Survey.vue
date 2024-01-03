@@ -25,8 +25,12 @@
         </tr>
         <tr v-for="(item, index) in dataArr" :key="index">
           <td>{{item.num}}</td>
-          <td @click=goQuestion() class="survey" style="cursor: pointer; color: rgb(22, 30, 145);">{{ item.name }}</td>
-          <td :style="{ color: getStatusColor(item.startDate, item.endDate) }">{{ getStatus(item.searchStartDate, item.endDate) }}</td>
+          <td class="survey">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="upData(item.num)">
+              {{ item.name }}
+            </button>
+          </td>
+          <td :style="{ color: getStatusColor(item.startDate, item.endDate) }">{{ getStatus(item.startDate, item.endDate) }}</td>
           <td>{{ item.startDate }}</td>
           <td>{{ item.endDate }}</td>
           <td></td>
@@ -34,6 +38,73 @@
       </table>
     <br>
     <br>
+    <div class="modal fade" id='exampleModal'  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding: 10px;">
+              <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="surveyTime">
+                    <p>{{ upStartDate }} - {{ upEndDate }}</p>
+                  </div>
+                  <div class="modal-body">
+                    <div class="mainTitle" style="text-align: center;">
+                      <h1>{{ upName }}</h1>
+                    </div>
+                    <div class="content" style="text-align: center;">
+                      <p>{{ upDescription }}</p>
+                    </div>
+                      <div class="container">
+                        <div class="info">
+                          <div class="set">
+                            <label for="">姓名 :</label>
+                            <input type="text" style="margin-left: 10px;" v-model="name" required>
+                          </div>
+                          <br>
+                          <div class="set">
+                            <label for="">手機 :</label>
+                                <input type="number" style="margin-left: 10px;" v-model="phone">
+                          </div>
+                          <br>
+                          <div class="set">
+                            <label for="">信箱 :</label>
+                            <input type="email" style="margin-left: 10px;" v-model="email">
+                          </div>
+                          <br>
+                          <div class="set">
+                            <label for="">年齡 :</label>
+                            <input type="number" style="margin-left: 10px;" v-model="age">
+                          </div>
+                          <br>
+                        </div>
+                        <p style="color: red;margin-left: 20px;">*為必填</p>
+                        <div class="list" v-for="(item, index) in upQuestionList" :key="index">
+                  <div class="question">
+                      <p>{{ item.num }} . {{ item.title }}</p>
+                      <span v-if="item.necessary === true" style="color: red;">*</span>
+                      <p>({{ item.type }})</p>
+                  </div>
+                  <br>
+                  <div class="options" v-for="op in (typeof item.option === 'string' ? item.option.split(';') : [])">
+                      <div class="left">
+                          <label for="" style="margin-right: 10px;" ></label>
+                      </div>
+                        <input class="check" type="checkbox" name="checkbox" v-if="item.type === '複選題'">                       
+                        <input class="radio" type="radio" name="radio" v-if="item.type === '單選題'">
+                        <textarea class="text" name="" id="" cols="50" rows="5" v-if="item.type === '簡答題'" v-model="message"></textarea>
+                        <p>{{ op }}</p>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="write">送出</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div> 
     <div class="pages">
       <i class="fa-solid fa-angles-left" @click="pagination(surveyArr, currentPage - 1)"></i>
       <p v-for="pageNumber in dataPages" :key="pageNumber" @click="pagination(surveyArr, pageNumber)">{{ pageNumber }}</p>
@@ -54,14 +125,50 @@
           dataArr:[],
           dataPages:[],
           currentPage: 1, //預設當前頁數1
+          upName: '',
+          upDescription: '',
+          upStartDate: '',
+          upEndDate: '',
+          upQuestionList: [],
+          num:'',
+          editArr:[],
+          name:'',
+          phone:'',
+          email:'',
+          age: '',
+          test:[],
+          writeArr:[],
+          answer:[],
+          message: '',
+          optionArr:[],
         }
       },
       mounted(){
         this.search()
       },
       methods:{
-        goQuestion(){
-          this.$router.push('/Question')
+        upData(num){
+          this.editArr.forEach(editArr => {
+            editArr.forEach((item) => {
+              if(num != item.num){
+                return
+              }
+              console.log(item.name);
+              let test = item.questionStr
+              this.upName = item.name
+              this.upDescription = item.description
+              this.upStartDate = item.startDate
+              this.upEndDate = item.endDate
+              this.upNum = item.num
+
+              if(this.upQuestionList != ""){
+                this.upQuestionList = ""
+              }
+              this.upQuestionList=JSON.parse(test)
+              // console.log(this.upQuestionList);
+              
+            })
+          })
         },
         pagination(data, nowPage){
           //全部資料長度
@@ -106,20 +213,23 @@
                   end_date:this.searchEndDate,
                   is_login:this.isLogin,
                 }
-            })
-            .then(res => {
+          })
+          .then(res => {
               res.data.quizList.forEach(element => {
                 this.surveyArr.push({
                   name:element.name,
                   description:element.description,
                   startDate:element.startDate,
                   endDate:element.endDate,
-                  is_published:element.published,
+                  is_published:element.published, 
                   question:element.questionStr,
                   num:element.num
-                })});
-
-                this.pagination(this.surveyArr, 1)
+                })
+              });
+              this.surveyArr.reverse()
+              this.editArr.push(res.data.quizList)
+              
+              this.pagination(this.surveyArr, 1)
             })
         },
         getStatus(startDate, endDate) {
@@ -127,9 +237,7 @@
             const startTime = new Date(startDate);
             const endTime = new Date(endDate);
 
-            if (now < startTime) {
-                return '尚未開始';
-            } else if (now >= startTime && now <= endTime) {
+            if (now >= startTime && now <= endTime) {
                 return '進行中';
             } else {
                 return '已結束';
@@ -138,15 +246,65 @@
         getStatusColor(startDate, endDate){
           const status = this.getStatus(startDate, endDate)
 
-          if(status === "尚未開始"){
-            return '#5b21b6'
-          }else if(status === "進行中"){
+          if(status === "進行中"){
             return '#365314'
           }else if(status === "已結束"){
             return '#b91c1c'
           }else{
             return 'black'
           }
+        }, 
+        write(){
+          const radio = document.querySelectorAll(".radio")
+          const check = document.querySelectorAll(".check")
+          const text = document.querySelectorAll(".text")
+
+          this.upQuestionList.forEach((item, index) => {
+            item.option = Array.isArray(item.option) ? item.option : item.option.split(';');
+            radio.forEach((radio, radioIndex) => {
+              if (radio.checked) {
+                if(item.type === '單選題') {
+                  const optValue = Object.values(item.option)
+                  this.answer.push({ qNum: index + 1, optionList:[optValue[radioIndex]] })
+                }
+              }
+            })
+            check.forEach((check, checkIndex) => {
+              if (check.checked) {
+                if(item.type === '複選題') {
+                  const optValue = Object.values(item.option)
+                  this.answer.push({ qNum: index + 1, optionList:[optValue[checkIndex]] })
+                }
+              }
+            })
+            text.forEach(text => {
+                if(item.type === '簡答題') {
+                  this.answer.push({ qNum: index + 1, optionList: [this.message] })
+                }
+            })
+            })
+
+
+          axios({
+            url:'http://localhost:8080/writer/write',
+            method:"POST",
+            headers:{"Content-Type": "application/json"},
+            data:{  
+              quiz_num: this.upNum,
+              name: this.name,
+              phone: this.phone,
+              email: this.email,
+              age: this.age,
+              answer: JSON.stringify(this.answer),
+            }
+          })
+          .then(res => console.log(res.data))
+
+          this.name = "",
+          this.phone = "",
+          this.email = "",
+          this.age = "",
+          this.message = ""
         },
       }
     }
@@ -213,6 +371,11 @@
           }
       }
       
+      .surveyTime{
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+      }
         table{
           width: 1200px;
           margin-top: 30px;
@@ -259,6 +422,23 @@
         font-size: 20pt;
         cursor: pointer;
         margin: 3px;
+      }
+    }
+    .question{
+      display: flex;
+
+      p{
+        margin: 0 10px;
+      }
+    }
+    .options{
+      display: flex;
+      align-items: baseline;
+      input{
+        margin-left: 10px;
+      }
+      p{
+        margin-left: 10px;
       }
     }
     </style>

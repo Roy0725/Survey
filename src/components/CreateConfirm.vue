@@ -34,10 +34,6 @@
     <br>
     <div class="questions" v-for="question in dataFromQuestions.question_list" :key="question.num">
         <p>{{ question.num }} . {{ question.title }}</p>
-           
-        <!-- <p>{{ question_list }}</p> -->
-
-        <!-- <p>{{ question.options }}</p> -->
         <template v-if="question.type === '複選題'">
             <div class="options" v-for="(option, index) in optionArr(question.option)" :key="index">
                     <input type="checkbox" :value="option" v-model="selectedOptions">
@@ -52,7 +48,7 @@
         </div>
         </template>
         <template v-else-if="question.type === '簡答題'">
-            <div class="options" v-for="(option, index) in optionArr(question.option)" :key="index">
+            <div class="options">
                 <textarea name="" id="" cols="50" rows="5" v-model="showAnswer"></textarea>
         </div>
         </template>
@@ -91,12 +87,14 @@ export default {
             selectedOptions:[],
             selectedOption:null,
             is_poblished:false,
+            isLogin: true,
             showAnswer:'',
             name:this.dataFromCreateSurvey.name,
             description:this.dataFromCreateSurvey.description,
             start_date:this.dataFromCreateSurvey.start_date,
             end_date:this.dataFromCreateSurvey.end_date,
             question_list:this.dataFromQuestions.question_list,
+            
         }
     },
     methods:{
@@ -121,13 +119,16 @@ export default {
 
             axios({
                 url:'http://localhost:8080/quiz/create',
-                method:"POST",
-                headers:{"Content-Type": "application/json"},
-                data: JSON.stringify({
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",
+                },
+                data: ({
                     name:this.name,
                     description:this.description,
                     start_date:this.start_date,
                     end_date:this.end_date,
+                    is_login: this.isLogin,
                     question_list: this.question_list,
                     is_published:false,
                 })
@@ -154,8 +155,10 @@ export default {
 
             axios({
                 url:'http://localhost:8080/quiz/create',
-                method:"POST",
-                headers:{"Content-Type": "application/json"},
+                method:"POST",              
+                headers:{
+                    "Content-Type": "application/json",
+                },
                 data: JSON.stringify({
                     name:this.name,
                     description:this.description,

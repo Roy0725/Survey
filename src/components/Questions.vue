@@ -19,13 +19,19 @@
                 </div>
                 <div class="right">
                     <p>(多個答案以;分隔)</p>
-                    <textarea name="" id="options" cols="75" rows="4" v-model="options"></textarea>
+                    <textarea name="" id="options" cols="100" rows="4" v-model="options"></textarea>
                 </div>
-                <input type="button" value="加入" @click="add">
+                <div class="inputs">
+                    <input type="button" v-if="!editMode" value="加入" @click="add">
+                    <div class="update">
+                        <input type="button" v-if="editMode" value="編輯" @click="update">
+                    </div>
+                    <div class="chancelEdit">
+                        <input type="button" v-if="editMode" value="取消" @click="cancelEdit">
+                    </div>
+                </div>
             </div>
         </div>
-            
-        
     </div>
     <div class="delete">
         <div class="icon">
@@ -47,7 +53,7 @@
                     <td>{{ q.title }}</td>
                     <td>{{ q.type }}</td>
                     <td><input type="checkbox" :checked="q.necessary" disabled></td>
-                    <td><a href="#">編輯</a></td>
+                    <td @click="edit(q)">編輯</td>
                 </tr>
             </table>
         </div>
@@ -66,6 +72,8 @@
                 is_necessary: false, //是否必填
                 options:'',
                 question_list:[],     //儲存新增的問題
+                editMode: false,  //顯示加入或編輯，預設加入
+                editingQuestion: null,
             }
         },
         methods:{
@@ -93,6 +101,51 @@
                 //回到預設值
                 this.optionType = '單選題'
                 this.is_necessary = false
+            },
+            edit(question){
+                this.editMode = true
+                this.editingQuestion = { ...question }; // 複製問題物件以避免直接修改原始資料
+                // 將問題內容填充到表單欄位中
+                this.question = this.editingQuestion.title;
+                this.optionType = this.editingQuestion.type;
+                this.is_necessary = this.editingQuestion.necessary;
+                this.options = this.editingQuestion.options;
+                
+            },
+            cancelEdit() {
+                this.editMode = false;
+                this.editingQuestion = null;
+                // 清空表單欄位
+                this.question = '';
+                this.optionType = '單選題';
+                this.is_necessary = false;
+                this.options = '';
+            },
+            update() {
+            // 檢查表單是否有效，這裡假設您有一些表單驗證的邏輯
+                if (this.validateForm()) {
+                    // 更新原始資料
+                    this.editingQuestion.title = this.question;
+                    this.editingQuestion.type = this.optionType;
+                    this.editingQuestion.necessary = this.is_necessary;
+                    this.editingQuestion.options = this.options;
+
+                    // 清空表單欄位
+                    this.question = '';
+                    this.optionType = '單選題';
+                    this.is_necessary = false;
+                    this.options = '';
+
+                    // 退出編輯模式
+                    this.editMode = false;
+                    this.editingQuestion = null;
+                }
+            },
+            // 新增表單驗證方法
+            validateForm() {
+                // 您可以根據實際需求添加表單驗證邏輯
+                // 例如，確保問題標題和類型是有效的
+                return this.question.trim() !== '' && this.optionType.trim() !== '';
             },
             deleteSelected(){
                 this.question_list = this.question_list.filter(q => !q.selected)
@@ -134,16 +187,30 @@ position: relative;
         .options{
             display: flex;
             margin-top: 20px;
-            position: absolute;
+            align-items: center;
             .left{
                 margin-right: 50px;
             }
-            input{
-                position: absolute;
-                right: -150px;
-                top: 55px;
+
+            .inputs{
                 width: 70px;
                 height: 40px;
+                margin: 50px;
+                display: flex;
+                
+                input{
+                    width: 70px;
+                    height: 40px;
+                }
+                .update{
+                    width: 70px;
+                    height: 40px;
+                    margin-right: 10px;
+                }
+                .chancelEdit{
+                    width: 70px;
+                    height: 40px;
+                }
             }
         }
     }
