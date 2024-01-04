@@ -21,21 +21,10 @@ const router = createRouter({
       component: () => import("../views/Front/Statistics.vue"),
     },
     {
-      path: "/Respon",
-      name: "Respon",
-      component: () => import("../views/Front/Respon.vue"),
-    },
-    {
       path: "/Question",
       name: "Question",
       component: () => import("../views/Front/Question.vue"),
     },
-    // {
-    //   path: "/edit-survey/:questionId",
-    //   name: "edit-survey",
-    //   component: Question,
-    //   props:true,
-    // },
     {
       path: "/Manage",
       name: "Manage",
@@ -51,12 +40,12 @@ const router = createRouter({
       name: "ManageCreate",
       component: () => import("../views/Back/ManageCreate.vue"),
     },
-    // {
-    //   path: "/ManageCreate/:id",
-    //   name: "ManageCreate/:id",
-    //   component: () => import("../views/Back/ManageCreate.vue"),
-    //   props:true
-    // },
+    {
+      path: "/Responsive/:quizNum",
+      name: "Responsive",
+      component: () => import('../views/Back/Responsive.vue'), // 確保你的 Response 組件存在
+      props: true, // 啟用 props，將路由參數作為組件的屬性傳遞
+    },
   ]
 })
 

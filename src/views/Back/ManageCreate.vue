@@ -12,12 +12,12 @@
   <li class="nav-item" role="presentation">
     <button class="nav-link" :class="{ active: step === 3 }" @click="changeStep(3)" id="createConfirm-tab" data-bs-toggle="tab" data-bs-target="#createConfirm" type="button" role="tab" aria-controls="createConfirm" aria-selected="false">確認頁</button>
   </li>
-  <li class="nav-item" role="presentation">
+  <!-- <li class="nav-item" role="presentation">
     <button class="nav-link" :class="{ active: step === 4 }" @click="changeStep(4)" id="response-tab" data-bs-toggle="tab" data-bs-target="#response" type="button" role="tab" aria-controls="response" aria-selected="false">問卷回饋</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" :class="{ active: step === 5 }" @click="changeStep(5)" id="statis-tab" data-bs-toggle="tab" data-bs-target="#statis" type="button" role="tab" aria-controls="statis" aria-selected="false">統計</button>
-  </li>
+  </li> -->
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" :class="{ show: step === 1, active: step === 1 }" id="createSurvey" role="tabpanel" aria-labelledby="createSurvey-tab">
@@ -39,12 +39,12 @@
     @submitData="submitData"
     />
 </div>
-  <div class="tab-pane fade" :class="{ show: step === 4, active: step === 4 }" id="response" role="tabpanel" aria-labelledby="response-tab">
+  <!-- <div class="tab-pane fade" :class="{ show: step === 4, active: step === 4 }" id="response" role="tabpanel" aria-labelledby="response-tab">
     <Response v-if="step === 4" />
   </div>
   <div class="tab-pane fade" :class="{ show: step === 5, active: step === 5 }" id="statis" role="tabpanel" aria-labelledby="statis-tab">
     <Statis v-if="step === 5" />
-  </div>
+  </div> -->
   
 </div>
 </div>
@@ -63,14 +63,6 @@ export default {
         dataFromCreateSurvey:'',
         dataFromQuestions:'',
         isLogin:true,
-        // name:"",
-        // description:"",
-        // start_date:"",
-        // end_date:"",
-        // question:'',
-        // optionType:'',
-        // necessary: 0,
-        // options:'',
       }
     
     },

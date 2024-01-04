@@ -1,5 +1,7 @@
 <template>
-    
+    <div>
+        <h1>安安</h1>
+    </div>
 </template>
 <script>
 export default {

@@ -41,7 +41,9 @@
           <td :style="{ color: getStatusColor(item.startDate, item.endDate) }">{{ getStatus(item.startDate, item.endDate, item.is_published) }}</td>
           <td>{{ item.startDate }}</td>
           <td>{{ item.endDate }}</td>
-          <td>回饋 統計</td>
+          <td>
+            <button @click="goResponsePage(item.num)" class="goRes">回饋</button>
+          </td>
         </tr>
       </table>
     <br>
@@ -155,8 +157,6 @@ export default {
     },
     mounted() {
         this.search();
-        // console.log(this.surveyArr);
-        // console.log(this.editArr);
     },
     methods: {
       confirmDelete(num) {
@@ -171,6 +171,9 @@ export default {
           return this.deleteSurvey(num)
         },
       })
+    },
+    goResponsePage(quizNum) {
+      this.$router.push({ name: 'Responsive', params: { quizNum: quizNum } });
     },
       updatePublished(){
         axios({
@@ -488,7 +491,14 @@ export default {
             }
           }
         }
-    
+        
+        .goRes{
+          border: 0;
+          outline: none;
+          color: blue;
+          text-decoration: underline;
+          background-color: transparent;
+        }
         
         
         
